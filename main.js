@@ -11,35 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
   }
 
-  // Contact form -> Formspree
-  // IMPORTANT: replace YOUR_FORM_ID below with the ID Formspree gives you
-  // after you create a free form at https://formspree.io
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+  // Contact form -> Formspree (plain native submission, avoids CORS issues on free tier)
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xrewaqpn';
 
   document.querySelectorAll('form.contact-form').forEach(form => {
     form.setAttribute('action', FORMSPREE_ENDPOINT);
     form.setAttribute('method', 'POST');
     const status = form.querySelector('.form-status');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    if (status) {
+      status.textContent = '';
+    }
+    // Let the browser submit natively. Formspree will redirect back
+    // to this page with ?submitted=true on success.
+    form.addEventListener('submit', () => {
       if (status) { status.textContent = 'Sending…'; status.className = 'form-status'; }
-      const data = new FormData(form);
-      try {
-        const res = await fetch(FORMSPREE_ENDPOINT, {
-          method: 'POST',
-          body: data,
-          headers: { 'Accept': 'application/json' }
-        });
-        if (res.ok) {
-          form.reset();
-          if (status) { status.textContent = 'Thanks — message sent. I\'ll reply by email shortly.'; status.className = 'form-status ok'; }
-        } else {
-          if (status) { status.textContent = 'Something went wrong. Please email daniel@danieltjornelund.com directly.'; status.className = 'form-status err'; }
-        }
-      } catch (err) {
-        if (status) { status.textContent = 'Something went wrong. Please email daniel@danieltjornelund.com directly.'; status.className = 'form-status err'; }
-      }
     });
   });
+
+  // Show a success message if we've just been redirected back from Formspree
+  if (window.location.search.includes('submitted') || window.location.hash.includes('thanks')) {
+    const status = document.querySelector('form.contact-form .form-status');
+    if (status) { status.textContent = "Thanks — message sent. I'll reply by email shortly."; status.className = 'form-status ok'; }
+  }
 });
