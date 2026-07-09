@@ -51,6 +51,7 @@ section.tight{padding:32px 0;}
 }
 .dark-section h1,.dark-section h2,.dark-section h3,.dark-section h4{color:var(--dark-ink);}
 .dark-section p{color:var(--dark-ink-soft);}
+.dark-section blockquote{color:var(--dark-ink);border-left-color:var(--dark-gold);}
 .dark-section .eyebrow{color:var(--dark-gold);}
 .dark-section .eyebrow::before{background:var(--dark-gold);}
 .dark-section .lede{color:var(--dark-ink-soft);}
