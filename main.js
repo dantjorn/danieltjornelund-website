@@ -1,5 +1,9 @@
 // Mobile nav toggle
 document.addEventListener('DOMContentLoaded', () => {
+  // Reveal cards: tap/click toggles on touch devices; hover handles desktop via CSS
+  document.querySelectorAll('.card.reveal').forEach(card => {
+    card.addEventListener('click', () => card.classList.toggle('open'));
+  });
   const btn = document.querySelector('.menu-btn');
   const nav = document.querySelector('.mobile-nav');
   if (btn && nav) {

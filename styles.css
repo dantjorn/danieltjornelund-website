@@ -177,6 +177,16 @@ footer.site-footer{background:var(--dark-bg);border-top:1px solid var(--dark-car
 .title-block{border:1px solid var(--card-border);padding:14px 18px;margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--mono);font-size:11px;color:var(--graphite);text-transform:uppercase;letter-spacing:.06em;}
 .title-block strong{color:var(--gold);}
 
-/* ── PHOTO PLACEHOLDER ── */
+/* REVEAL CARD — teaser visible, detail on hover/tap */
+.card.reveal{cursor:pointer;position:relative;}
+.card.reveal h3{font-size:19px;margin-bottom:6px;}
+.card.reveal .teaser{font-size:14px;color:var(--graphite);margin:0;transition:opacity .2s ease;}
+.card.reveal .reveal-body{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s ease,opacity .3s ease,margin-top .3s ease;margin-top:0;}
+.card.reveal.open .reveal-body,.card.reveal:hover .reveal-body{max-height:400px;opacity:1;margin-top:10px;}
+.card.reveal.open .teaser,.card.reveal:hover .teaser{opacity:0;max-height:0;margin:0;}
+.card.reveal .toggle-mark{position:absolute;top:24px;right:24px;font-family:var(--mono);font-size:16px;color:var(--gold);transition:transform .25s ease;}
+.card.reveal.open .toggle-mark,.card.reveal:hover .toggle-mark{transform:rotate(45deg);}
+
+/* PHOTO PLACEHOLDER */
 .photo-placeholder{width:100%;aspect-ratio:3/4;max-width:240px;background:var(--card);border:1px dashed var(--card-border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--graphite);text-transform:uppercase;letter-spacing:.08em;}
 .photo-placeholder svg{width:40px;height:40px;opacity:.3;}
