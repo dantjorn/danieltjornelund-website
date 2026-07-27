@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.card.reveal').forEach(card => {
     card.addEventListener('click', () => card.classList.toggle('open'));
   });
+  document.querySelectorAll('.spec-list.reveal-list li').forEach(li => {
+    li.addEventListener('click', () => li.classList.toggle('open'));
+  });
+
+  // Nav dropdown: hover on desktop via CSS, click toggle for touch devices
+  document.querySelectorAll('.nav-dropdown').forEach(dd => {
+    const toggle = dd.querySelector('.dropdown-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.nav-dropdown.open').forEach(other => { if (other !== dd) other.classList.remove('open'); });
+        dd.classList.toggle('open');
+      });
+    }
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nav-dropdown.open').forEach(dd => dd.classList.remove('open'));
+  });
   const btn = document.querySelector('.menu-btn');
   const nav = document.querySelector('.mobile-nav');
   if (btn && nav) {
