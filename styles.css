@@ -196,6 +196,20 @@ footer.site-footer{background:var(--dark-bg);border-top:1px solid var(--dark-car
 .spec-list.reveal-list .line-detail{display:block;max-height:0;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin-top .25s ease;margin-top:0;font-size:14px;color:var(--graphite);padding-left:22px;}
 .spec-list.reveal-list li.open .line-detail,.spec-list.reveal-list li:hover .line-detail{max-height:200px;opacity:1;margin-top:6px;}
 
+/* DIAGNOSTIC TOOL */
+.diag-q{border:1px solid var(--card-border);background:var(--card);padding:20px 22px;margin-bottom:1px;cursor:pointer;transition:border-color .15s;}
+.diag-q:hover{border-color:var(--gold);}
+.diag-q label{display:flex;align-items:flex-start;gap:14px;cursor:pointer;font-family:var(--body);font-size:15.5px;color:var(--ink);text-transform:none;letter-spacing:normal;font-weight:400;margin:0;}
+.diag-q input[type="checkbox"]{margin-top:3px;width:18px;height:18px;flex:none;accent-color:var(--gold);cursor:pointer;}
+.diag-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px;}
+.diag-result{display:none;border:1px solid var(--gold);background:var(--card);padding:28px;margin-top:24px;}
+.diag-result.show{display:block;}
+.diag-result h3{font-size:22px;margin-bottom:10px;}
+.diag-result .stage-tag{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
+.diag-bar-track{background:var(--paper-line);height:8px;width:100%;margin:4px 0 2px;position:relative;}
+.diag-bar-fill{background:var(--gold);height:100%;transition:width .5s ease;}
+.diag-band-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--graphite);text-transform:uppercase;letter-spacing:.05em;margin-bottom:20px;}
+
 /* PHOTO PLACEHOLDER */
 .photo-placeholder{width:100%;aspect-ratio:3/4;max-width:240px;background:var(--card);border:1px dashed var(--card-border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--graphite);text-transform:uppercase;letter-spacing:.08em;}
 .photo-placeholder svg{width:40px;height:40px;opacity:.3;}

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which Stage Are You In? | Daniel Tjørnelund</title>
+<meta name="description" content="A short self-assessment to identify which transformation stage your organization is actually in — L1 through L5.">
+<link rel="canonical" href="https://www.danieltjornelund.com/stage-diagnostic.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="mark">DT</span><span>Daniel Tjørnelund<small>CEO &amp; Transformation Executive</small></span></a>
+    <nav class="primary">
+      <a href="index.html">Home</a><a href="track-record.html">Track Record</a><a href="flagship-transformation.html">Flagship Transformation</a><a href="how-i-work.html">How I Work</a><a href="use-cases.html">Use Cases</a>
+      <a href="book-daniel.html" class="btn" style="padding:8px 16px;color:var(--dark-ink);border-color:var(--dark-card-border);">Book a Call</a>
+    </nav>
+    <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  </div>
+  <nav class="mobile-nav"><a href="index.html">Home</a><a href="track-record.html">Track Record</a><a href="flagship-transformation.html">Flagship Transformation</a><a href="how-i-work.html">How I Work</a><a href="use-cases.html">Use Cases</a><a href="book-daniel.html">Book a Call</a></nav>
+</header>
+<main>
+  <section class="page-hero dark-section" style="border-top:none;">
+    <div class="wrap">
+      <div class="eyebrow">Drawing No. 032 — Self-Assessment</div>
+      <h1>Which stage are you actually in?</h1>
+      <p class="lede">Not every company is fighting the same battle. Check whatever statements are true for your organization today — most companies show signs of more than one stage at once. Takes about a minute.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div id="questions">
+        <div class="diag-q" data-stage="L1"><label><input type="checkbox" value="1">Our core product or service has proven demand — the work now is executing more efficiently, not rebuilding it.</label></div>
+        <div class="diag-q" data-stage="L1"><label><input type="checkbox" value="1">Our infrastructure and management could already support meaningfully more volume without breaking.</label></div>
+        <div class="diag-q" data-stage="L2"><label><input type="checkbox" value="1">The model works, but our management layer hasn't caught up to what the business now needs.</label></div>
+        <div class="diag-q" data-stage="L2"><label><input type="checkbox" value="1">We're growing, but most decisions still run through one or two people.</label></div>
+        <div class="diag-q" data-stage="L3"><label><input type="checkbox" value="1">Our core business is healthy and profitable, but we can see a ceiling on how much further it can grow as-is.</label></div>
+        <div class="diag-q" data-stage="L3"><label><input type="checkbox" value="1">We're considering expanding into adjacent products or markets — not because we have to, but because we could.</label></div>
+        <div class="diag-q" data-stage="L4"><label><input type="checkbox" value="1">Our current business is under real, visible pressure, and we need to build the next version of it before this one declines too far.</label></div>
+        <div class="diag-q" data-stage="L4"><label><input type="checkbox" value="1">This isn't optional for us anymore — the future has to be built now, while still running the business we have today.</label></div>
+        <div class="diag-q" data-stage="L5"><label><input type="checkbox" value="1">Our existing product or model can no longer sustain the business as it stands.</label></div>
+        <div class="diag-q" data-stage="L5"><label><input type="checkbox" value="1">We need to stabilize and rescue the business before we can even think about growth again.</label></div>
+      </div>
+      <div class="diag-actions">
+        <button class="btn primary" id="diag-submit" type="button">See my result</button>
+        <button class="btn" id="diag-reset" type="button">Reset</button>
+      </div>
+
+      <div class="diag-result" id="diag-result">
+        <span class="stage-tag" id="result-tag"></span>
+        <h3 id="result-title"></h3>
+        <p id="result-body"></p>
+        <p id="result-note" style="font-size:13.5px; color:var(--graphite);"></p>
+        <div style="margin-top:20px; display:flex; gap:14px; flex-wrap:wrap;">
+          <a href="how-i-work.html" class="btn">Read the full framework →</a>
+          <a href="book-daniel.html" class="btn primary">Talk it through</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark-section">
+    <div class="wrap">
+      <h2 style="max-width:24ch;">Prefer a conversation to a checklist?</h2>
+      <a href="book-daniel.html" class="btn primary">Book a call</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><div class="wrap"><div class="footer-grid"><div><h4>Daniel Tjørnelund</h4><p style="font-size:14px;max-width:34ch;">Three-time CEO helping organizations become what their next stage of growth requires. Based in Tel Aviv.</p></div><div><h4>Site</h4><a href="track-record.html">Track Record</a><a href="flagship-transformation.html">Flagship Transformation</a><a href="how-i-work.html">How I Work</a><a href="use-cases.html">Use Cases</a></div><div><h4>Contact</h4><a href="mailto:daniel@danieltjornelund.com">daniel@danieltjornelund.com</a><a href="tel:+972509029991">+972 050-902-9991</a><a href="http://www.linkedin.com/in/danieltjornelund" target="_blank" rel="noopener">LinkedIn ↗</a><a href="book-daniel.html">Book a call →</a></div></div><div class="footer-bottom"><span>© 2026 Daniel Tjørnelund</span><span>Tel Aviv, Israel</span></div></div></footer>
+<script src="main.js?v=2"></script>
+<script>
+const STAGES = {
+  L1: { tag: "L1 · Optimization", title: "Execute better.", body: "PMF is proven and infrastructure is in place. The work in front of you is GTM efficiency and operational discipline — not redesign. Resist the urge to rebuild what isn't broken." },
+  L2: { tag: "L2 · Scaling", title: "Institutionalize the basics.", body: "The model works, but the management layer and infrastructure haven't caught up to the business's needs yet. This is the most common stage — and the most commonly under-invested in." },
+  L3: { tag: "L3 · Evolution", title: "Extend the model — deliberately.", body: "The core is healthy and funds the future, but every addressable market has a ceiling. Expansion is optional here, not urgent — which makes discipline about where you expand even more important." },
+  L4: { tag: "L4 · Transformation", title: "Redesign while running.", body: "The future has to be built before the existing business declines too far. This is not optional, and it's the hardest stage to execute — you're funding tomorrow's business with today's, while today's is under pressure." },
+  L5: { tag: "L5 · Reinvention", title: "Rescue first. Rebuild second.", body: "The legacy solution can no longer support the business. Growth conversations are premature until the business is stabilized. Sequencing matters enormously here." },
+};
+
+function computeResult() {
+  const counts = { L1:0, L2:0, L3:0, L4:0, L5:0 };
+  document.querySelectorAll('.diag-q').forEach(q => {
+    const box = q.querySelector('input[type="checkbox"]');
+    if (box.checked) counts[q.dataset.stage]++;
+  });
+  const total = Object.values(counts).reduce((a,b) => a+b, 0);
+  if (total === 0) return null;
+  const max = Math.max(...Object.values(counts));
+  const top = Object.keys(counts).filter(k => counts[k] === max);
+  return { top, counts, total };
+}
+
+document.getElementById('diag-submit').addEventListener('click', () => {
+  const result = computeResult();
+  const panel = document.getElementById('diag-result');
+  if (!result) {
+    document.getElementById('result-tag').textContent = '';
+    document.getElementById('result-title').textContent = "Check at least one statement first.";
+    document.getElementById('result-body').textContent = '';
+    document.getElementById('result-note').textContent = '';
+    panel.classList.add('show');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  const primary = STAGES[result.top[0]];
+  document.getElementById('result-tag').textContent = primary.tag;
+  document.getElementById('result-title').textContent = primary.title;
+  document.getElementById('result-body').textContent = primary.body;
+  if (result.top.length > 1) {
+    const names = result.top.map(k => STAGES[k].tag).join(' and ');
+    document.getElementById('result-note').textContent = `Your answers matched more than one stage equally (${names}) — that's common, and worth unpacking directly rather than resolving with a quiz.`;
+  } else {
+    document.getElementById('result-note').textContent = "Stages describe increasing complexity and risk — not a sequence every company must pass through in order.";
+  }
+  panel.classList.add('show');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+document.getElementById('diag-reset').addEventListener('click', () => {
+  document.querySelectorAll('.diag-q input[type="checkbox"]').forEach(b => b.checked = false);
+  document.getElementById('diag-result').classList.remove('show');
+});
+</script>
+</body>
+</html>
