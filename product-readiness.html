@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Services to Product: Where Do You Stand? | Daniel Tjørnelund</title>
-<meta name="description" content="A short self-assessment on whether your services business has real product-strategy whitespace — and how exposed it is to AI commoditization.">
+<title>Is Your Industry a Platform Goldmine? | Daniel Tjørnelund</title>
+<meta name="description" content="A compressed, deterministic diagnostic: classify your business, check whether that classification is genuine or a reclassification opportunity, find the binding constraint, and get a recommended productization pathway.">
 <link rel="canonical" href="https://www.danieltjornelund.com/product-readiness.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -25,37 +25,40 @@
   <section class="page-hero dark-section" style="border-top:none;">
     <div class="wrap">
       <div class="eyebrow">Drawing No. 033 — Self-Assessment</div>
-      <h1>Services to product: where do you stand?</h1>
-      <p class="lede">AI is commoditizing generic expertise faster than most services businesses realize. Check whatever's true for your organization today to see how much real product whitespace you're sitting on.</p>
+      <h1>Is your industry a platform goldmine?</h1>
+      <p class="lede">A compressed, deterministic read on where a business actually sits: what it structurally is, whether that's genuine or an artifact of legacy delivery, what's actually holding it back, and what follows from that. About 3 minutes, 14 questions.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <div id="questions">
-        <div class="diag-q"><label><input type="checkbox" value="1">Most of our revenue today is tied to billable hours or bespoke project work.</label></div>
-        <div class="diag-q"><label><input type="checkbox" value="1">Each client engagement looks meaningfully different from the last.</label></div>
-        <div class="diag-q"><label><input type="checkbox" value="1">Parts of what we do are increasingly being commoditized by generic AI tools.</label></div>
-        <div class="diag-q"><label><input type="checkbox" value="1">We have proprietary data, workflows, or domain expertise that generic AI can't easily replicate.</label></div>
-        <div class="diag-q"><label><input type="checkbox" value="1">The way we solve problems for clients is fundamentally repeatable, even if we don't currently deliver it that way.</label></div>
-        <div class="diag-q"><label><input type="checkbox" value="1">Our growth is currently capped by how many skilled people we can hire and bill out.</label></div>
-        <div class="diag-q"><label><input type="checkbox" value="1">We could imagine a version of our expertise captured in software or a structured platform.</label></div>
-        <div class="diag-q"><label><input type="checkbox" value="1">Leadership has discussed, at least informally, building a product or platform on top of our services.</label></div>
-      </div>
+      <div id="q-root"></div>
       <div class="diag-actions">
         <button class="btn primary" id="diag-submit" type="button">See my result</button>
         <button class="btn" id="diag-reset" type="button">Reset</button>
       </div>
 
       <div class="diag-result" id="diag-result">
-        <span class="stage-tag" id="result-tag"></span>
-        <h3 id="result-title"></h3>
-        <div class="diag-bar-track"><div class="diag-bar-fill" id="result-bar" style="width:0%;"></div></div>
-        <div class="diag-band-labels"><span>Defensible services</span><span>Whitespace</span><span>Product-ready</span></div>
-        <p id="result-body"></p>
-        <div style="margin-top:20px; display:flex; gap:14px; flex-wrap:wrap;">
+        <span class="stage-tag" id="result-quadrant-tag"></span>
+        <h3 id="result-quadrant-title"></h3>
+        <p id="result-quadrant-desc"></p>
+
+        <div class="diag-section-label">Reclassification read</div>
+        <p id="result-reclass"></p>
+
+        <div class="diag-section-label">What's binding you</div>
+        <p id="result-binding"></p>
+
+        <div class="diag-section-label">Recommended pathway</div>
+        <p id="result-pathway"></p>
+
+        <div id="legit-callout" class="legit-callout" style="display:none;"></div>
+
+        <p style="margin-top:20px; font-size:13px; color:var(--graphite); border-top:1px solid var(--paper-line); padding-top:16px;">This is a compressed read using a handful of the full framework's diagnostic dimensions. A full analysis adds friction-centrality mapping, trust-type breakdown, and transformation sequencing.</p>
+
+        <div style="margin-top:16px; display:flex; gap:14px; flex-wrap:wrap;">
           <a href="flagship-transformation.html" class="btn">See how this played out at Azami →</a>
-          <a href="book-daniel.html" class="btn primary">Talk it through</a>
+          <a href="book-daniel.html" class="btn primary">Book a working session</a>
         </div>
       </div>
     </div>
@@ -70,44 +73,6 @@
 </main>
 <footer class="site-footer"><div class="wrap"><div class="footer-grid"><div><h4>Daniel Tjørnelund</h4><p style="font-size:14px;max-width:34ch;">Three-time CEO helping organizations become what their next stage of growth requires. Based in Tel Aviv.</p></div><div><h4>Site</h4><a href="track-record.html">Track Record</a><a href="flagship-transformation.html">Flagship Transformation</a><a href="how-i-work.html">How I Work</a><a href="use-cases.html">Use Cases</a></div><div><h4>Contact</h4><a href="mailto:daniel@danieltjornelund.com">daniel@danieltjornelund.com</a><a href="tel:+972509029991">+972 050-902-9991</a><a href="http://www.linkedin.com/in/danieltjornelund" target="_blank" rel="noopener">LinkedIn ↗</a><a href="book-daniel.html">Book a call →</a></div></div><div class="footer-bottom"><span>© 2026 Daniel Tjørnelund</span><span>Tel Aviv, Israel</span></div></div></footer>
 <script src="main.js?v=2"></script>
-<script>
-const BANDS = [
-  { max: 2, tag: "Defensible Services Core", title: "Productizing may be premature.", body: "Your model still relies on differentiated, bespoke expertise that's hard to codify or commoditize. That's a legitimate, durable position — the question worth revisiting isn't 'should we build a product,' it's 'how do we protect this differentiation as AI capability keeps advancing.'" },
-  { max: 5, tag: "Productization Whitespace", title: "There's a real opportunity here — worth a deliberate look.", body: "You're showing genuine signals of repeatable value and AI exposure. This is roughly where Azami sat before the platform strategy — a legacy model with a ceiling, and enough underlying repeatability to build something new on top of it. Worth a structured look, not a rushed one." },
-  { max: 8, tag: "High Readiness", title: "The signals are strong. The risk now is moving too slowly.", body: "Multiple strong signals — commoditization pressure, repeatable delivery, and real appetite from leadership. The risk at this stage usually isn't building the wrong thing; it's waiting too long while a competitor (or AI itself) closes the whitespace first." },
-];
-
-function computeScore() {
-  let count = 0;
-  document.querySelectorAll('.diag-q input[type="checkbox"]').forEach(b => { if (b.checked) count++; });
-  return count;
-}
-
-document.getElementById('diag-submit').addEventListener('click', () => {
-  const score = computeScore();
-  const panel = document.getElementById('diag-result');
-  if (score === 0) {
-    document.getElementById('result-tag').textContent = '';
-    document.getElementById('result-title').textContent = "Check at least one statement first.";
-    document.getElementById('result-body').textContent = '';
-    document.getElementById('result-bar').style.width = '0%';
-    panel.classList.add('show');
-    panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
-  const band = BANDS.find(b => score <= b.max);
-  document.getElementById('result-tag').textContent = band.tag;
-  document.getElementById('result-title').textContent = band.title;
-  document.getElementById('result-body').textContent = band.body;
-  document.getElementById('result-bar').style.width = Math.round((score/8)*100) + '%';
-  panel.classList.add('show');
-  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-});
-
-document.getElementById('diag-reset').addEventListener('click', () => {
-  document.querySelectorAll('.diag-q input[type="checkbox"]').forEach(b => b.checked = false);
-  document.getElementById('diag-result').classList.remove('show');
-});
-</script>
+<script src="product-readiness.js"></script>
 </body>
 </html>
