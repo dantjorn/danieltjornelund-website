@@ -1,36 +1,53 @@
+// ── Tooltip helper ─────────────────────────────────────────
+function tip(term, explanation) {
+  return `<span class="term-tip" tabindex="0">${term}<span class="tip-bubble">${explanation}</span></span>`;
+}
+const TIP = {
+  NRR: tip('NRR', "Net Revenue Retention measures how much recurring revenue you retain and expand from existing customers over a year. A value above 100% means your existing customers generate more revenue over time even before acquiring new customers."),
+  logoRetention: tip('logo retention', "The percentage of paying customers (accounts) you keep year over year, regardless of how much each one spends. Different from NRR, which measures revenue rather than account count."),
+  operatingModel: tip('operating model', "How your company creates, delivers, and captures value — including its products, organization, sales model, pricing, processes, and governance."),
+  transformationLoad: tip('Transformation Load', "How many major dimensions of the business are changing simultaneously. The more concurrent changes, the greater the organizational complexity and execution risk."),
+};
+
 // ── Question data ─────────────────────────────────────────
 const QUESTIONS = [
-  { id:'q1', module:'Growth Engine', text:"What best describes the revenue concentration of your current product or service portfolio?", options:[
+  { id:'q1', module:'Growth Engine', moduleNote:"This section answers one question: where will the company's next dollar of growth come from?", text:"What best describes the revenue concentration of your current product or service portfolio?", options:[
     {l:'A', t:'One product or service generates more than 80% of our revenue — and it is still growing strongly.'},
     {l:'B', t:'One dominant product generates most revenue, but growth is slowing and we need adjacent offerings.'},
     {l:'C', t:'We have two or three products contributing meaningfully to revenue, and we are building more.'},
     {l:'D', t:'We are actively rebuilding the portfolio — the flagship offering is in structural decline.'},
   ]},
-  { id:'q1b', module:'Growth Engine', text:"How much runway remains in your existing Serviceable Addressable Market (SAM)? Estimate your SAM size from known market data and divide by current ARR.", options:[
-    {l:'A', t:'More than 10× our current revenue — we have barely scratched the surface.'},
-    {l:'B', t:'5–10× our current revenue — significant room remains in the current model.'},
-    {l:'C', t:'2–5× our current revenue — the market is maturing and we are approaching saturation.'},
-    {l:'D', t:'Less than 2× our current revenue — the current SAM can no longer sustain our growth ambitions.'},
+  { id:'q1b', module:'Growth Engine', text:"How large is the sustainable market opportunity for your core solution?", options:[
+    {l:'A', t:'Niche market (less than ~$1B).'},
+    {l:'B', t:'Attractive market (~$1B–5B).'},
+    {l:'C', t:'Large market (greater than ~$5B).'},
+    {l:'D', t:'Massive or effectively unconstrained market.'},
   ]},
-  { id:'q2', module:'Growth Engine', text:"What is your Net Revenue Retention (NRR) — the percentage of last year's revenue you retained and expanded from existing customers?", options:[
+  { id:'q1c', module:'Growth Engine', text:"How is competition evolving in your core market?", options:[
+    {l:'A', t:'Competition is stable or decreasing.'},
+    {l:'B', t:'Competition is increasing gradually.'},
+    {l:'C', t:'Competition is becoming significantly more intense and differentiation is harder.'},
+    {l:'D', t:'The market is commoditizing, or undergoing disruptive change.'},
+  ]},
+  { id:'q2', module:'Growth Engine', text:`What is your ${TIP.NRR} — the percentage of last year's revenue you retained and expanded from existing customers?`, options:[
     {l:'A', t:'Above 110% — existing customers are growing in value faster than we are losing others.'},
     {l:'B', t:'90–110% — broadly flat; retention is stable but expansion is limited.'},
     {l:'C', t:'70–90% — we are losing meaningful revenue from the existing base and relying on new logos to compensate.'},
     {l:'D', t:'Below 70%, or we do not track this metric reliably.'},
   ]},
-  { id:'q3', module:'Growth Engine', text:"Where do you expect the majority of your revenue growth to come from in the next 24 months?", options:[
-    {l:'A', t:'More of the same: deeper penetration of our existing market with our existing product.'},
-    {l:'B', t:'The same product, at much greater scale — new geographies, new sales channels, significantly larger addressable market.'},
-    {l:'C', t:'Adjacent growth: new products, new customer segments, or geographic expansion beyond the core.'},
-    {l:'D', t:'A fundamentally different model: we need to change how we create, deliver, or capture value — not just add to what we have.'},
+  { id:'q3', module:'Growth Engine', text:"Where do you expect the majority of your revenue growth over the next 24 months to come from?", options:[
+    {l:'A', t:'Existing customers. More than 70–80% of future growth is expected to come from expansion, upsell, cross-sell, increased usage, or pricing within our existing customer base.'},
+    {l:'B', t:'New customers for the same core offering. Most growth will come from acquiring substantially more customers for the same product, including expansion into new geographies, channels, or sales capacity.'},
+    {l:'C', t:'New growth engines. Meaningful growth requires new products, adjacent customer segments, or additional revenue models alongside the existing business.'},
+    {l:'D', t:'A fundamentally different business model. Sustainable growth requires changing how the company creates, delivers, or captures value — not simply expanding the current business.'},
   ]},
-  { id:'q4', module:'Growth Engine', text:"How does your current operating model compare to what your growth ambitions require?", options:[
+  { id:'q4', module:'Growth Engine', text:`How does your current ${TIP.operatingModel} compare to what your growth ambitions require?`, options:[
     {l:'A', t:'Well matched. The current model can scale to meet our targets with incremental improvements.'},
     {l:'B', t:'Mostly matched, but systems and management layers need significant strengthening to avoid breaking under growth.'},
     {l:'C', t:'Mismatched in one major dimension — e.g. we are a service company that needs to become a product company, or a domestic company going global.'},
     {l:'D', t:'Fundamentally mismatched. Meaningful growth requires redesigning multiple elements of the operating model simultaneously.'},
   ]},
-  { id:'q5', module:'Transformation Load', text:"Which of the following best represents how many dimensions of your business are actively changing right now? (Dimensions include: new product, new customer segment, new geography, new pricing model, new operating model, management professionalization, organizational redesign, capital raise, M&A integration, technology platform change.)", options:[
+  { id:'q5', module:'Transformation Load', moduleNote:`From here, every question answers a different question: can the organization successfully execute the transformation its growth ambitions require? ${TIP.transformationLoad} measures how many dimensions are changing at once.`, text:"Which of the following best represents how many dimensions of your business are actively changing right now? (Dimensions include: new product, new customer segment, new geography, new pricing model, new operating model, management professionalization, organizational redesign, capital raise, M&A integration, technology platform change.)", options:[
     {l:'A', t:'One or two dimensions are changing — the rest of the business is stable.'},
     {l:'B', t:'Three or four dimensions are in active transition. The organization feels the load but is managing.'},
     {l:'C', t:'Five or more dimensions are changing simultaneously. Execution quality is visibly suffering.'},
@@ -54,7 +71,7 @@ const QUESTIONS = [
     {l:'C', t:'Decision-making is slow and opaque. Authority is unclear across functions.'},
     {l:'D', t:'Almost everything flows back to the CEO or founders. No decision scales without reaching the top.'},
   ]},
-  { id:'q9', module:'Organizational Debt', text:"What do your customer retention metrics look like — specifically logo retention and NRR?", options:[
+  { id:'q9', module:'Organizational Debt', text:`What do your customer retention metrics look like — specifically ${TIP.logoRetention} and NRR?`, options:[
     {l:'A', t:'Logo retention above 85% and NRR above 100%. The customer base is growing in value.'},
     {l:'B', t:'Logo retention 70–85% and NRR roughly flat. Retention is stable but not compounding.'},
     {l:'C', t:'Logo retention below 70%. We rely significantly on new logos to offset churn.'},
@@ -101,8 +118,16 @@ QUESTIONS.forEach(q => {
     lastModule = q.module;
     sectionHTML = `<div class="diag-section-label">${q.module}</div>`;
   }
+  const noteHTML = q.moduleNote ? `<p style="font-size:13.5px; font-style:italic; color:var(--graphite); margin:-6px 0 14px;">${q.moduleNote}</p>` : '';
   const opts = q.options.map(o => `<label><input type="radio" name="${q.id}" value="${o.l}"><span><strong>${o.l}.</strong> ${o.t}</span></label>`).join('');
-  root.insertAdjacentHTML('beforeend', `${sectionHTML}<div class="likert-q"><p class="q-text">${q.text}</p><div class="choice-q">${opts}</div></div>`);
+  root.insertAdjacentHTML('beforeend', `${sectionHTML}${noteHTML}<div class="likert-q"><p class="q-text">${q.text}</p><div class="choice-q">${opts}</div></div>`);
+});
+
+// Tooltip tap-toggle for touch devices (hover already works via CSS)
+document.addEventListener('click', (e) => {
+  const tipEl = e.target.closest('.term-tip');
+  document.querySelectorAll('.term-tip.open').forEach(t => { if (t !== tipEl) t.classList.remove('open'); });
+  if (tipEl) tipEl.classList.toggle('open');
 });
 
 // ── Scoring ─────────────────────────────────────────
@@ -112,11 +137,13 @@ function getVal(name) {
 }
 
 const SEV = { A:0, B:1, C:2, D:3 };
+// Rebalanced to 5 inputs (was 4) after splitting the SAM question into Market Opportunity + Competitive Dynamics
 const GH_POINTS = {
-  q1:  { A:25, B:18, C:12, D:5 },
-  q1b: { A:25, B:20, C:10, D:3 },
-  q2:  { A:25, B:18, C:8,  D:3 },
-  q3:  { A:25, B:20, C:12, D:5 },
+  q1:  { A:20, B:14, C:8,  D:3 },
+  q1b: { A:3,  B:8,  C:14, D:20 }, // niche market scores worst, unconstrained market scores best
+  q1c: { A:20, B:14, C:8,  D:3 },  // stable competition scores best, disruption scores worst
+  q2:  { A:20, B:14, C:8,  D:3 },
+  q3:  { A:20, B:15, C:9,  D:3 },
 };
 
 const STAGE_PROFILES = {
@@ -145,7 +172,7 @@ const STAGE_PROFILES = {
     headline: "Your core is healthy, but it cannot take you where you need to go.",
     body: "You are in a position of relative strength — but the horizon is approaching. The current model is working, and its economics are sound, but its serviceable addressable market is maturing. You need new growth engines alongside the core: adjacent products, new customer segments, or geographic expansion. This is the most psychologically difficult stage because everything is fine — until suddenly it isn't. The clock is running, and it is not visible in the P&L.",
     questions: [
-      "When does our current SAM reach natural saturation — and what is the plan for before that happens?",
+      "When does our current market position reach natural saturation — and what is the plan for before that happens?",
       "Who owns the next growth engine, and do they have enough organizational protection to build it without being consumed by the core?",
       "Are we investing in the next engine before we need it, or are we waiting until we have to?",
     ],
@@ -187,16 +214,22 @@ function computeResult() {
   }
 
   // ── Stage (hierarchical) ──
+  // Step 1: Q3 (growth source) is the primary classifier.
   let stage = { A:1, B:2, C:3, D:4 }[a.q3];
   const originalQ3Stage = stage;
+  // Step 2: Q4 (operating model match) escalates by one stage if C/D.
   if ((a.q4 === 'C' || a.q4 === 'D') && (stage === 2 || stage === 3)) stage += 1;
-  if (a.q1b === 'D' && stage < 4) stage += 1;
+  // Step 3: Competitive Dynamics = D (market commoditizing/disrupting) — replaces the old SAM-runway escalator.
+  if (a.q1c === 'D' && stage < 4) stage += 1;
+  // Step 4: legacy + new engine in active tension sets a minimum of Stage 4.
   if (a.q7 === 'C' || a.q7 === 'D') stage = Math.max(stage, 4);
+  // Step 5: NRR distinguishes Stage 2 from Stage 3 when Step 1 gave Stage 2.
   if (originalQ3Stage === 2 && (a.q2 === 'C' || a.q2 === 'D')) stage = Math.max(stage, 3);
-  if (a.q3 === 'D' && a.q4 === 'D' && a.q1b === 'D' && a.q1 === 'D') stage = 5;
+  // Stage 5 override: growth source, operating model, and competitive dynamics all at their most severe, plus concentrated/declining revenue.
+  if (a.q3 === 'D' && a.q4 === 'D' && a.q1c === 'D' && a.q1 === 'D') stage = 5;
 
   // ── Growth Health (0-100) ──
-  const growthHealth = GH_POINTS.q1[a.q1] + GH_POINTS.q1b[a.q1b] + GH_POINTS.q2[a.q2] + GH_POINTS.q3[a.q3];
+  const growthHealth = GH_POINTS.q1[a.q1] + GH_POINTS.q1b[a.q1b] + GH_POINTS.q1c[a.q1c] + GH_POINTS.q2[a.q2] + GH_POINTS.q3[a.q3];
   const ghBand = growthHealth >= 80 ? 'Strong' : growthHealth >= 55 ? 'Moderate' : growthHealth >= 30 ? 'Weakening' : 'Critical';
 
   // ── Transformation Load (0-9) ──
@@ -222,7 +255,7 @@ function computeResult() {
   } else if (stage === 2 && elevated.includes('Customer')) {
     constraint = "Your acquisition is working but retention is not compounding. The growth treadmill is accelerating. Fixing retention economics before scaling acquisition is the single highest-leverage investment available.";
   } else if (stage === 3) {
-    constraint = "The core is healthy but the clock is running. The existing SAM is approaching its natural ceiling. The primary constraint is building the next growth engine before the core begins to decline.";
+    constraint = "The core is healthy but the clock is running. The existing market position is approaching its natural ceiling. The primary constraint is building the next growth engine before the core begins to decline.";
   } else if (stage === 4 && growthHealth < 55) {
     constraint = "The legacy engine is weakening while the new model is not yet self-sustaining. This is the most dangerous window in any transformation. Protecting cash flow and reducing active change fronts is more important than accelerating the new model.";
   } else if (stage === 4) {
