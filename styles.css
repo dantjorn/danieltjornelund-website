@@ -224,7 +224,7 @@ footer.site-footer{background:var(--dark-bg);border-top:1px solid var(--dark-car
 .choice-q{display:flex;flex-direction:column;gap:8px;}
 .choice-q label{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--card-border);padding:14px 16px;cursor:pointer;font-size:14.5px;color:var(--ink);transition:border-color .15s,background .15s;}
 .choice-q label:hover{border-color:var(--gold);}
-.choice-q input[type="radio"]{margin-top:3px;accent-color:var(--gold);flex:none;}
+.choice-q input[type="radio"]{margin-top:3px;accent-color:var(--gold);flex:none;width:18px;height:18px;}
 .choice-q input[type="radio"]:checked + span{font-weight:600;}
 .choice-q label:has(input:checked){border-color:var(--gold);background:#FBF7EF;}
 .diag-section-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--graphite);margin:32px 0 12px;}
