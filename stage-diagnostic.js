@@ -1,303 +1,407 @@
-// ── Tooltip helper ─────────────────────────────────────────
-function tip(term, explanation) {
-  return `<span class="term-tip" tabindex="0">${term}<span class="tip-bubble">${explanation}</span></span>`;
-}
-const TIP = {
-  NRR: tip('NRR', "Net Revenue Retention measures how much recurring revenue you retain and expand from existing customers over a year. A value above 100% means your existing customers generate more revenue over time even before acquiring new customers."),
-  logoRetention: tip('logo retention', "The percentage of paying customers (accounts) you keep year over year, regardless of how much each one spends. Different from NRR, which measures revenue rather than account count."),
-  operatingModel: tip('operating model', "How your company creates, delivers, and captures value — including its products, organization, sales model, pricing, processes, and governance."),
-  transformationLoad: tip('Transformation Load', "How many major dimensions of the business are changing simultaneously. The more concurrent changes, the greater the organizational complexity and execution risk."),
-};
+// ══════════════════════════════════════════════════════════
+// SCALE-UP TRANSFORMATION DIAGNOSTIC — v3
+// Deterministic free version. No AI. See spec sections 1-13.
+// ══════════════════════════════════════════════════════════
 
-// ── Question data ─────────────────────────────────────────
-const QUESTIONS = [
-  { id:'q1', module:'Growth Engine', moduleNote:"This section answers one question: where will the company's next dollar of growth come from?", text:"What best describes the revenue concentration of your current product or service portfolio?", options:[
-    {l:'A', t:'One product or service generates more than 80% of our revenue — and it is still growing strongly.'},
-    {l:'B', t:'One dominant product generates most revenue, but growth is slowing and we need adjacent offerings.'},
-    {l:'C', t:'We have two or three products contributing meaningfully to revenue, and we are building more.'},
-    {l:'D', t:'We are actively rebuilding the portfolio — the flagship offering is in structural decline.'},
-  ]},
-  { id:'q1b', module:'Growth Engine', text:"How large is the sustainable market opportunity for your core solution?", options:[
-    {l:'A', t:'Niche market (less than ~$1B).'},
-    {l:'B', t:'Attractive market (~$1B–5B).'},
-    {l:'C', t:'Large market (greater than ~$5B).'},
-    {l:'D', t:'Massive or effectively unconstrained market.'},
-  ]},
-  { id:'q1c', module:'Growth Engine', text:"How is competition evolving in your core market?", options:[
-    {l:'A', t:'Competition is stable or decreasing.'},
-    {l:'B', t:'Competition is increasing gradually.'},
-    {l:'C', t:'Competition is becoming significantly more intense and differentiation is harder.'},
-    {l:'D', t:'The market is commoditizing, or undergoing disruptive change.'},
-  ]},
-  { id:'q2', module:'Growth Engine', text:`What is your ${TIP.NRR} — the percentage of last year's revenue you retained and expanded from existing customers?`, options:[
-    {l:'A', t:'Above 110% — existing customers are growing in value faster than we are losing others.'},
-    {l:'B', t:'90–110% — broadly flat; retention is stable but expansion is limited.'},
-    {l:'C', t:'70–90% — we are losing meaningful revenue from the existing base and relying on new logos to compensate.'},
-    {l:'D', t:'Below 70%, or we do not track this metric reliably.'},
-  ]},
-  { id:'q3', module:'Growth Engine', text:"Where do you expect the majority of your revenue growth over the next 24 months to come from?", options:[
-    {l:'A', t:'Existing customers. More than 70–80% of future growth is expected to come from expansion, upsell, cross-sell, increased usage, or pricing within our existing customer base.'},
-    {l:'B', t:'New customers for the same core offering. Most growth will come from acquiring substantially more customers for the same product, including expansion into new geographies, channels, or sales capacity.'},
-    {l:'C', t:'New growth engines. Meaningful growth requires new products, adjacent customer segments, or additional revenue models alongside the existing business.'},
-    {l:'D', t:'A fundamentally different business model. Sustainable growth requires changing how the company creates, delivers, or captures value — not simply expanding the current business.'},
-  ]},
-  { id:'q4', module:'Growth Engine', text:`How does your current ${TIP.operatingModel} compare to what your growth ambitions require?`, options:[
-    {l:'A', t:'Well matched. The current model can scale to meet our targets with incremental improvements.'},
-    {l:'B', t:'Mostly matched, but systems and management layers need significant strengthening to avoid breaking under growth.'},
-    {l:'C', t:'Mismatched in one major dimension — e.g. we are a service company that needs to become a product company, or a domestic company going global.'},
-    {l:'D', t:'Fundamentally mismatched. Meaningful growth requires redesigning multiple elements of the operating model simultaneously.'},
-  ]},
-  { id:'q5', module:'Transformation Load', moduleNote:`From here, every question answers a different question: can the organization successfully execute the transformation its growth ambitions require? ${TIP.transformationLoad} measures how many dimensions are changing at once.`, text:"Which of the following best represents how many dimensions of your business are actively changing right now? (Dimensions include: new product, new customer segment, new geography, new pricing model, new operating model, management professionalization, organizational redesign, capital raise, M&A integration, technology platform change.)", options:[
-    {l:'A', t:'One or two dimensions are changing — the rest of the business is stable.'},
-    {l:'B', t:'Three or four dimensions are in active transition. The organization feels the load but is managing.'},
-    {l:'C', t:'Five or more dimensions are changing simultaneously. Execution quality is visibly suffering.'},
-    {l:'D', t:'Almost every dimension is in motion at once: product, go-to-market, operating model, management, capital structure, and culture.'},
-  ]},
-  { id:'q6', module:'Transformation Load', text:"How many significant strategic initiatives did your executive team launch in the past 12 months?", options:[
-    {l:'A', t:'One or two — we are disciplined about focus.'},
-    {l:'B', t:'Three to five — we are busy but each initiative has clear ownership.'},
-    {l:'C', t:'Six or more — the agenda is crowded and some initiatives are stalling.'},
-    {l:'D', t:'We have lost count. Everything is a priority, which means nothing is.'},
-  ]},
-  { id:'q7', module:'Transformation Load', text:"Is your company currently running a legacy business and a new growth engine simultaneously?", options:[
-    {l:'A', t:'No — we have one business and one operating model.'},
-    {l:'B', t:'Partially — we are beginning to build something new alongside the core, but it is early.'},
-    {l:'C', t:'Yes — we are running two meaningfully different businesses with different economics, metrics, and cultures.'},
-    {l:'D', t:'Yes, and the two are in active tension — the legacy model is consuming resources the new engine urgently needs.'},
-  ]},
-  { id:'q8', module:'Organizational Debt', text:"When a decision needs to be made, what typically happens?", options:[
-    {l:'A', t:'Decisions move quickly through clear channels. People know who owns what.'},
-    {l:'B', t:'Most decisions work, but important ones escalate to senior leadership more than they should.'},
-    {l:'C', t:'Decision-making is slow and opaque. Authority is unclear across functions.'},
-    {l:'D', t:'Almost everything flows back to the CEO or founders. No decision scales without reaching the top.'},
-  ]},
-  { id:'q9', module:'Organizational Debt', text:`What do your customer retention metrics look like — specifically ${TIP.logoRetention} and NRR?`, options:[
-    {l:'A', t:'Logo retention above 85% and NRR above 100%. The customer base is growing in value.'},
-    {l:'B', t:'Logo retention 70–85% and NRR roughly flat. Retention is stable but not compounding.'},
-    {l:'C', t:'Logo retention below 70%. We rely significantly on new logos to offset churn.'},
-    {l:'D', t:'We do not track these metrics reliably, or the numbers are materially worse than above.'},
-  ]},
-  { id:'q10', module:'Organizational Debt', text:"How aligned is your board or investor group with the transformation the company needs to execute?", options:[
-    {l:'A', t:'Fully aligned — the board understands the transformation, the investment required, and the timeline.'},
-    {l:'B', t:'Mostly aligned, with manageable differences in risk appetite or time horizon.'},
-    {l:'C', t:'Meaningfully misaligned — different board members have different views of where the company should go.'},
-    {l:'D', t:'The board is a source of active friction. Governance is slowing or complicating the transformation.'},
-  ]},
-  { id:'q11', module:'Transformation Capacity', text:"How would you describe the current state of your executive team's bandwidth?", options:[
-    {l:'A', t:'High. Executives are operating well within capacity and have bandwidth for new initiatives.'},
-    {l:'B', t:'Stretched but functional. The team is working hard and holding together.'},
-    {l:'C', t:'Overloaded. Several executives are carrying more than they can sustainably manage.'},
-    {l:'D', t:'We have a burnout problem. Key people are exhausted, and some are at or near a breaking point.'},
-  ]},
-  { id:'q12', module:'Transformation Capacity', text:"When your organization faces a major change — new priorities, new structures, new processes — what typically happens?", options:[
-    {l:'A', t:'Adaptation is smooth. People understand the reasons and adjust without significant friction.'},
-    {l:'B', t:'There is resistance, but it is manageable. Change takes longer than we would like but happens.'},
-    {l:'C', t:'The organization actively reverts to old ways without sustained pressure from leadership.'},
-    {l:'D', t:'Cultural resistance is severe. Almost every change initiative faces serious pushback and many fail to stick.'},
-  ]},
-  { id:'q13', module:'Transformation Capacity', text:"What is your approximate monthly cash runway, and how dependent is the transformation on external capital?", options:[
-    {l:'A', t:'12+ months of runway. The transformation is fundable from internal cash flow.'},
-    {l:'B', t:'6–12 months. We need to raise capital within the next 12 months but have a credible path.'},
-    {l:'C', t:'3–6 months. We are in active fundraising and the transformation depends on closing a round.'},
-    {l:'D', t:'Less than 3 months, or the transformation cannot proceed without capital we do not yet have committed.'},
-  ]},
-  { id:'q14', module:'Transformation Capacity', text:"Which best describes how your company measures whether the transformation is working?", options:[
-    {l:'A', t:'We track financial indicators (revenue, EBITDA, margins) and semi-financial indicators (NRR, CAC/LTV, retention, revenue per employee) together.'},
-    {l:'B', t:'We primarily track financial results, but we have started adding operational metrics.'},
-    {l:'C', t:'We track financial results only. Strategy conversations default to the P&L.'},
-    {l:'D', t:'We do not have a systematic measurement framework. Key decisions rely on judgment and experience.'},
-  ]},
+const AREAS = [
+  'Existing product/solution', 'Additional problem-solution fit', 'GTM/sales model',
+  'Customer Success/retention', 'Operations/delivery', 'Product/R&D capability',
+  'Data/technology systems', 'Executive capability', 'Middle management',
+  'Organizational structure/decision rights', 'Cross-functional integration',
+  'Culture/behavioral norms', 'Geography/internationalization',
+  'Pricing/monetization/economic model', 'Capital/financing', 'Governance',
+  'M&A/integration', 'Other',
+];
+const CLOCKS = [
+  'Legacy-engine deterioration', 'Cash/runway', 'Competitive movement', 'Technology disruption',
+  'Customer commitments', "Owner/investor time horizon", 'Regulatory deadline', 'Talent/retention', 'Other',
 ];
 
-// ── Render ─────────────────────────────────────────
 const root = document.getElementById('q-root');
-let lastModule = null;
-QUESTIONS.forEach(q => {
-  let sectionHTML = '';
-  if (q.module !== lastModule) {
-    lastModule = q.module;
-    sectionHTML = `<div class="diag-section-label">${q.module}</div>`;
+
+function textQ(id, label, placeholder, tag) {
+  root.insertAdjacentHTML('beforeend', `<div class="text-q">${tag ? `<div class="diag-section-label">${tag}</div>` : ''}<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder || ''}"></div>`);
+}
+
+function radioQ(id, tag, text, options, hidden) {
+  const opts = options.map(o => `<label><input type="radio" name="${id}" value="${o.l}"><span><strong>${o.l}.</strong> ${o.t}</span></label>`).join('');
+  root.insertAdjacentHTML('beforeend', `<div class="likert-q" id="wrap-${id}" ${hidden ? 'style="display:none;"' : ''}>${tag ? `<div class="diag-section-label">${tag}</div>` : ''}<p class="q-text">${text}</p><div class="choice-q">${opts}</div></div>`);
+}
+
+// ── SECTION A: TRANSFORMATION DIAGNOSIS ──
+textQ('a1_dest', "What is the company trying to become over the next 3–5 years? (Target scale, principal customer/market, principal offering.)", "e.g. A $50M global platform serving mid-market law firms directly", "Section A — Transformation Diagnosis (not scored — anchors every answer below)");
+
+radioQ('a2', null, "Assume excellent execution of the problem-solution fit you have already proven. Could that existing fit plausibly support the destination you described?", [
+  { l:'A', t:'Yes. The proven customer/problem/solution space appears economically sufficient.' },
+  { l:'B', t:'Probably yes, but only if we become substantially better at reproducing and delivering it.' },
+  { l:'C', t:'No. Reaching the destination requires meaningful additional problem-solution fit.' },
+  { l:'D', t:'No. Reaching the destination increasingly depends on a business or engine materially different from the one that created the company.' },
+]);
+
+radioQ('a3', null, "If the current problem-solution fit is sufficient, what prevents the company from exploiting it at the scale required by the destination?", [
+  { l:'A', t:'Mainly penetration, replication, and incremental execution improvement.' },
+  { l:'B', t:'Important capabilities still depend too heavily on founders, individual employees, or immature functions.' },
+  { l:'C', t:'The organization lacks several capabilities necessary to reproduce, integrate, or govern the existing model at the required scale.' },
+], true);
+
+radioQ('a4', null, "At the destination you described, what role is the current business expected to play?", [
+  { l:'A', t:"It remains the company's strategic and economic center of gravity; new offerings/customers extend it." },
+  { l:'B', t:'It remains important, but a newer engine is expected to become at least equally important.' },
+  { l:'C', t:'It primarily finances, enables, or bridges the company toward a successor engine that becomes central.' },
+], true);
+
+radioQ('a5', null, "At the intended destination, approximately how much of the company's economic value do you expect to come from problem-solution fit that has already been proven today?", [
+  { l:'A', t:'More than 75%.' },
+  { l:'B', t:'50–75%.' },
+  { l:'C', t:'25–50%.' },
+  { l:'D', t:'Less than 25%.' },
+]);
+
+// ── TURNAROUND / REINVENTION FLAG ──
+radioQ('t1', 'Turnaround / Reinvention Check', "If no new growth engine succeeded, could the existing business remain economically viable for approximately the next two years with reasonable operational adjustments?", [
+  { l:'A', t:'Yes, comfortably.' },
+  { l:'B', t:'Yes, but material restructuring or efficiency improvements would be needed.' },
+  { l:'C', t:'Probably not without substantial intervention or external support.' },
+  { l:'D', t:'No; the existing engine itself appears structurally unsustainable.' },
+]);
+radioQ('t2', null, "Does the current core still solve an economically meaningful customer problem?", [
+  { l:'A', t:'Yes, clearly.' },
+  { l:'B', t:'Yes, although demand/economics are weakening.' },
+  { l:'C', t:'Increasingly unclear.' },
+  { l:'D', t:'The underlying problem-solution fit itself appears to be deteriorating materially.' },
+]);
+
+// ── SECTION B: TRANSFORMATION LOAD ──
+root.insertAdjacentHTML('beforeend', `<div class="diag-section-label">Section B — Transformation Load</div><p class="q-text" style="font-weight:600;">Which areas must materially change for the company to reach its destination? Select all that apply, and how severe the required change is.</p>`);
+const b1wrap = document.createElement('div');
+AREAS.forEach((area, i) => {
+  const id = `b1_${i}`;
+  const item = document.createElement('div');
+  item.className = 'check-item';
+  item.innerHTML = `<input type="checkbox" id="${id}" data-area="${area}">
+    <label for="${id}">${area}</label>
+    <select id="${id}_sev" disabled>
+      <option value="1">Limited</option>
+      <option value="2" selected>Material</option>
+      <option value="3">Fundamental</option>
+    </select>`;
+  b1wrap.appendChild(item);
+});
+root.appendChild(b1wrap);
+b1wrap.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    document.getElementById(cb.id + '_sev').disabled = !cb.checked;
+  });
+});
+
+radioQ('b2', null, "How much of the required transformation must progress simultaneously?", [
+  { l:'A', t:'Most changes can be sequenced.' },
+  { l:'B', t:'Several have to develop together, but meaningful sequencing remains possible.' },
+  { l:'C', t:'Most critical changes are materially interdependent and must progress concurrently.' },
+  { l:'D', t:'Delaying one major change front materially threatens several others.' },
+]);
+
+root.insertAdjacentHTML('beforeend', `<p class="q-text" style="font-weight:600; margin-top:24px;">Which clocks materially constrain how long the organization has to complete the transformation? Select all that apply.</p>`);
+const b3wrap = document.createElement('div');
+CLOCKS.forEach((clock, i) => {
+  const id = `b3_${i}`;
+  const item = document.createElement('div');
+  item.className = 'check-item';
+  item.innerHTML = `<input type="checkbox" id="${id}" data-clock="${clock}"><label for="${id}">${clock}</label>`;
+  b3wrap.appendChild(item);
+});
+root.appendChild(b3wrap);
+
+radioQ('b4', null, "How much discretion does management have to stop, postpone, or sequence major transformation initiatives?", [
+  { l:'A', t:'High.' },
+  { l:'B', t:'Moderate.' },
+  { l:'C', t:'Low.' },
+  { l:'D', t:'Very low.' },
+]);
+
+// ── SECTION C: ORGANIZATIONAL DEBT (dynamic, built after B1 selections known) ──
+root.insertAdjacentHTML('beforeend', `<div class="diag-section-label">Section C — Organizational Debt</div><p id="c1-intro" class="q-text" style="font-weight:600;">Select at least one area above in Section B to see the organizational debt questions.</p>`);
+const c1wrap = document.createElement('div');
+c1wrap.id = 'c1-wrap';
+root.appendChild(c1wrap);
+
+function rebuildDebtQuestions() {
+  const checked = Array.from(b1wrap.querySelectorAll('input[type="checkbox"]:checked'));
+  c1wrap.innerHTML = '';
+  document.getElementById('c1-intro').style.display = checked.length ? 'none' : 'block';
+  checked.forEach((cb, i) => {
+    const area = cb.dataset.area;
+    const id = `c1_${i}`;
+    const opts = [
+      { l:'A', t:'Established — repeatable, owned, and functioning without recurring exceptional intervention.' },
+      { l:'B', t:'Developing — capability exists, but remains inconsistent or person-dependent.' },
+      { l:'C', t:'Material gap — organization cannot yet perform at the level required by the transformation.' },
+      { l:'D', t:'Critical gap — capability is largely absent or repeatedly depends on exceptional intervention.' },
+    ].map(o => `<label><input type="radio" name="${id}" value="${o.l}"><span><strong>${o.l}.</strong> ${o.t}</span></label>`).join('');
+    const div = document.createElement('div');
+    div.className = 'likert-q';
+    div.dataset.area = area;
+    div.innerHTML = `<p class="q-text">How developed is the capability required for <strong>${area}</strong> today?</p><div class="choice-q">${opts}</div>`;
+    c1wrap.appendChild(div);
+  });
+}
+b1wrap.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', rebuildDebtQuestions));
+
+radioQ('c2', null, "Over the last 6–12 months, what has happened to the most important capability gaps?", [
+  { l:'A', t:'Clearly narrowing.' },
+  { l:'B', t:'Mixed.' },
+  { l:'C', t:'Broadly unchanged.' },
+  { l:'D', t:'Widening, because complexity is increasing faster than capability.' },
+]);
+
+// ── SECTION D: CURRENT TRANSFORMATION CAPACITY ──
+radioQ('d1', 'Section D — Current Transformation Capacity', "How would you describe leadership bandwidth right now?", [
+  { l:'A', t:'Meaningful bandwidth exists.' }, { l:'B', t:'Stretched but functional.' },
+  { l:'C', t:'Several critical leaders are overloaded.' }, { l:'D', t:'Sustained heroic effort or burnout risk is present.' },
+]);
+radioQ('d2', null, "How well-funded is the transformation plan relative to available financial room?", [
+  { l:'A', t:'Required journey is substantially funded through committed resources/internal economics.' },
+  { l:'B', t:'Funding path is credible, although further capital or improved economics will be required.' },
+  { l:'C', t:'Important parts depend on capital that is not yet secured.' },
+  { l:'D', t:'Current financial room is clearly insufficient for the transformation plan.' },
+]);
+radioQ('d3', null, "How does the organization handle prioritizing and stopping work?", [
+  { l:'A', t:'Management routinely reallocates/stops work.' }, { l:'B', t:'Priorities are generally clear but initiatives sometimes accumulate.' },
+  { l:'C', t:'Organization struggles to stop work once launched.' }, { l:'D', t:'Almost everything remains a priority.' },
+]);
+radioQ('d4', null, "When consequential decisions cross functional boundaries, what typically happens?", [
+  { l:'A', t:'Relevant leaders usually resolve them at the appropriate level.' }, { l:'B', t:'Some escalate, but the system generally works.' },
+  { l:'C', t:'Important issues repeatedly stall or escalate to the CEO.' }, { l:'D', t:'CEO/founders remain the necessary integrator for most consequential cross-functional issues.' },
+]);
+radioQ('d5', null, "How does the organization update its plans when evidence contradicts them?", [
+  { l:'A', t:'Contradictory evidence is surfaced quickly and plans adapt.' }, { l:'B', t:'Learning occurs, but slower than desirable.' },
+  { l:'C', t:'Plans tend to persist until financial outcomes force reconsideration.' }, { l:'D', t:'No reliable mechanism exists for testing and updating important strategic assumptions.' },
+]);
+
+// ── SECTION E: MANDATE & EVIDENCE READINESS ──
+radioQ('e1', 'Section E — Mandate & Evidence Readiness', "How explicit is agreement between management and the board/owners about the journey — not merely the destination?", [
+  { l:'A', t:'Destination, major investments, time horizon, and risk boundaries are explicit and understood.' },
+  { l:'B', t:'Broad agreement exists, but some major assumptions remain implicit.' },
+  { l:'C', t:'Destination is aligned, but investment/time/risk appetite is not clearly aligned.' },
+  { l:'D', t:'Management and owners appear to be pursuing materially different journeys.' },
+]);
+radioQ('e2', null, "Before committing substantial resources, have management and the board agreed what evidence should indicate that the transformation is working?", [
+  { l:'A', t:'Yes: causal assumptions, milestones, and reassessment points are explicit.' },
+  { l:'B', t:'Partly.' }, { l:'C', t:'Primarily financial outcomes are monitored.' },
+  { l:'D', t:'No systematic evidence architecture exists.' },
+]);
+
+// ── Show/hide A3/A4 based on A2 ──
+document.addEventListener('change', (e) => {
+  if (e.target.name === 'a2') {
+    const v = e.target.value;
+    document.getElementById('wrap-a3').style.display = (v === 'A' || v === 'B') ? 'block' : 'none';
+    document.getElementById('wrap-a4').style.display = (v === 'C' || v === 'D') ? 'block' : 'none';
   }
-  const noteHTML = q.moduleNote ? `<p style="font-size:13.5px; font-style:italic; color:var(--graphite); margin:-6px 0 14px;">${q.moduleNote}</p>` : '';
-  const opts = q.options.map(o => `<label><input type="radio" name="${q.id}" value="${o.l}"><span><strong>${o.l}.</strong> ${o.t}</span></label>`).join('');
-  root.insertAdjacentHTML('beforeend', `${sectionHTML}${noteHTML}<div class="likert-q"><p class="q-text">${q.text}</p><div class="choice-q">${opts}</div></div>`);
 });
 
-// Tooltip tap-toggle for touch devices (hover already works via CSS)
-document.addEventListener('click', (e) => {
-  const tipEl = e.target.closest('.term-tip');
-  document.querySelectorAll('.term-tip.open').forEach(t => { if (t !== tipEl) t.classList.remove('open'); });
-  if (tipEl) tipEl.classList.toggle('open');
-});
-
-// ── Scoring ─────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// SCORING
+// ═══════════════════════════════════════════════════════════
 function getVal(name) {
   const el = document.querySelector(`input[name="${name}"]:checked`);
   return el ? el.value : null;
 }
 
-const SEV = { A:0, B:1, C:2, D:3 };
-// Rebalanced to 5 inputs (was 4) after splitting the SAM question into Market Opportunity + Competitive Dynamics
-const GH_POINTS = {
-  q1:  { A:20, B:14, C:8,  D:3 },
-  q1b: { A:3,  B:8,  C:14, D:20 }, // niche market scores worst, unconstrained market scores best
-  q1c: { A:20, B:14, C:8,  D:3 },  // stable competition scores best, disruption scores worst
-  q2:  { A:20, B:14, C:8,  D:3 },
-  q3:  { A:20, B:15, C:9,  D:3 },
+const DIAGNOSIS_INFO = {
+  1: { name: 'L1 — Replicate', color: '#1B5E20', body: "The company's existing problem-solution fit can plausibly support the chosen destination. The deepest transformation requirement is reproducing, penetrating, and extending execution of an engine whose strategic thesis is already sufficient. This may still require management, systems, product, customer success, geographic expansion, and organizational development — but those activities don't change the underlying diagnosis." },
+  2: { name: 'L2 — Institutionalize', color: '#2E5C8A', body: "The existing problem-solution fit can plausibly support the destination, but the organization cannot yet reproduce, integrate, and govern it at the required scale. The deepest constraint is organizational capability — typically management depth, systems, repeatability, decision rights, functional capability, middle management, and cross-functional integration." },
+  3: { name: 'L3 — Extend', color: '#7A4100', body: "The current problem-solution fit remains viable and strategically central, but it cannot provide enough economically serviceable opportunity to support the chosen destination. The company must establish additional problem-solution fit. The existing business remains the center of gravity; new fit extends it." },
+  4: { name: 'L4 — Renew', color: '#7B1F1F', body: "The existing business remains economically valuable, but cannot plausibly remain the company's long-term center of gravity. The future increasingly depends on a successor or renewed engine, while the company continues operating — and often financing the journey — from the existing one." },
 };
-
-const STAGE_PROFILES = {
-  1: {
-    tag: "Stage 1 · Optimization", color: "#1B5E20",
-    headline: "Your business model works. The challenge is executing it with more precision and at greater scale.",
-    body: "You have achieved something many companies never do: a model that is proven, a market that has room, and economics that work. The transformation required here is operational, not existential. Complacency is your primary risk — Optimization companies often underinvest in future capacity precisely because today's results are strong. The financial lens is your dominant measurement tool, but watch the semi-financial indicators carefully: they will reveal when this stage is ending before the P&L does.",
-    questions: [
-      "Which of our core processes still depend on specific people rather than repeatable systems?",
-      "Are our semi-financial indicators (NRR, CAC/LTV, revenue per employee) improving or stagnating?",
-      "What would break first if we doubled our customer volume without adding headcount?",
-    ],
-  },
-  2: {
-    tag: "Stage 2 · Scaling", color: "#2E5C8A",
-    headline: "You have proven the model. Now you need to build the machine that delivers it at scale.",
-    body: "You have the hardest part behind you: evidence that the model works, and a market large enough to sustain significant growth. What you are discovering is that the organization which achieved product-market fit is not the same organization required to scale it. Systems, management layers, and processes that were optional during the sprint to PMF are now mandatory infrastructure. The most expensive mistake at this stage is adding headcount before defining the work those people will do.",
-    questions: [
-      "Can the organization make the right decisions without my direct involvement?",
-      "What is our logo retention rate — and what does it predict about our acquisition treadmill?",
-      "Do we have the management layer that can translate strategy into execution without the CEO in every room?",
-    ],
-  },
-  3: {
-    tag: "Stage 3 · Evolution", color: "#7A4100",
-    headline: "Your core is healthy, but it cannot take you where you need to go.",
-    body: "You are in a position of relative strength — but the horizon is approaching. The current model is working, and its economics are sound, but its serviceable addressable market is maturing. You need new growth engines alongside the core: adjacent products, new customer segments, or geographic expansion. This is the most psychologically difficult stage because everything is fine — until suddenly it isn't. The clock is running, and it is not visible in the P&L.",
-    questions: [
-      "When does our current market position reach natural saturation — and what is the plan for before that happens?",
-      "Who owns the next growth engine, and do they have enough organizational protection to build it without being consumed by the core?",
-      "Are we investing in the next engine before we need it, or are we waiting until we have to?",
-    ],
-  },
-  4: {
-    tag: "Stage 4 · Transformation", color: "#7B1F1F",
-    headline: "You are redesigning the machine while flying it. This is the hardest thing a scale-up does.",
-    body: "A Level 4 Transformation is not a growth challenge. It is an organizational redesign challenge under time pressure. You are executing simultaneous shifts across multiple dimensions — and each additional change front multiplies the risk that the organization runs out of capacity before the new model becomes self-sustaining. Most transformations fail not because the strategy was wrong, but because stakeholder alignment collapses first. Transformation risk — the risk that investors, board members, executives, and employees lose conviction before the new model can carry itself — is your dominant management challenge.",
-    questions: [
-      "Does every investment we are making increase our transformation capacity — or are we spending on things that feel strategic but do not compound?",
-      "Does my board understand what we are building — or are they evaluating the future company through the lens of the company we used to be?",
-      "Which of our active change fronts could we pause without losing strategic position — and what would that give back in organizational capacity?",
-    ],
-  },
-  5: {
-    tag: "Stage 5 · Reinvention", color: "#4A0E0E",
-    headline: "The existing model can no longer support the future. Stabilization before transformation.",
-    body: "You are not in a growth challenge. You are in a survival challenge. The existing business model is structurally insufficient, and the priority is creating the financial and organizational stability required to build something new. Reinvention is the rarest and most demanding transformation category — and it is frequently misdiagnosed as a Stage 4 Transformation. The difference is urgency: in Stage 5, the legacy model cannot fund the new one for long enough to complete the transition without intervention.",
-    questions: [
-      "Do we have enough runway — financial and organizational — to reach the point where the new model can carry itself?",
-      "What is the minimum viable version of the new model that could become self-sustaining before the legacy stops working?",
-      "Is everyone in the governance structure clear that this is a reinvention — not a performance problem that better execution will solve?",
-    ],
-  },
-};
-
-function scoreClass(val, thresholds) {
-  if (val >= thresholds[0]) return 'good';
-  if (val >= thresholds[1]) return 'warn';
-  return 'bad';
-}
 
 function computeResult() {
-  const a = {};
-  for (const q of QUESTIONS) {
-    const v = getVal(q.id);
-    if (v === null) return null;
-    a[q.id] = v;
-  }
+  const dest = document.getElementById('a1_dest').value.trim();
+  const a2 = getVal('a2');
+  if (!a2) return null;
 
-  // ── Stage (hierarchical) ──
-  // Step 1: Q3 (growth source) is the primary classifier.
-  let stage = { A:1, B:2, C:3, D:4 }[a.q3];
-  const originalQ3Stage = stage;
-  // Step 2: Q4 (operating model match) escalates by one stage if C/D.
-  if ((a.q4 === 'C' || a.q4 === 'D') && (stage === 2 || stage === 3)) stage += 1;
-  // Step 3: Competitive Dynamics = D (market commoditizing/disrupting) — replaces the old SAM-runway escalator.
-  if (a.q1c === 'D' && stage < 4) stage += 1;
-  // Step 4: legacy + new engine in active tension sets a minimum of Stage 4.
-  if (a.q7 === 'C' || a.q7 === 'D') stage = Math.max(stage, 4);
-  // Step 5: NRR distinguishes Stage 2 from Stage 3 when Step 1 gave Stage 2.
-  if (originalQ3Stage === 2 && (a.q2 === 'C' || a.q2 === 'D')) stage = Math.max(stage, 3);
-  // Stage 5 override: growth source, operating model, and competitive dynamics all at their most severe, plus concentrated/declining revenue.
-  if (a.q3 === 'D' && a.q4 === 'D' && a.q1c === 'D' && a.q1 === 'D') stage = 5;
-
-  // ── Growth Health (0-100) ──
-  const growthHealth = GH_POINTS.q1[a.q1] + GH_POINTS.q1b[a.q1b] + GH_POINTS.q1c[a.q1c] + GH_POINTS.q2[a.q2] + GH_POINTS.q3[a.q3];
-  const ghBand = growthHealth >= 80 ? 'Strong' : growthHealth >= 55 ? 'Moderate' : growthHealth >= 30 ? 'Weakening' : 'Critical';
-
-  // ── Transformation Load (0-9) ──
-  const load = SEV[a.q5] + SEV[a.q6] + SEV[a.q7];
-  const loadBand = load <= 2 ? 'Low' : load <= 4 ? 'Moderate' : load <= 7 ? 'High' : 'Critical';
-
-  // ── Capacity (0-21) ──
-  const capacitySum = SEV[a.q8] + SEV[a.q9] + SEV[a.q10] + SEV[a.q11] + SEV[a.q12] + SEV[a.q13] + SEV[a.q14];
-  const capBand = capacitySum <= 5 ? 'High' : capacitySum <= 11 ? 'Moderate' : capacitySum <= 17 ? 'Depleted' : 'Critical';
-
-  // ── Dominant debt (highest, or within 1 point = co-elevated) ──
-  const debt = { Management: SEV[a.q8], Customer: SEV[a.q9], Governance: SEV[a.q10] };
-  const maxDebt = Math.max(...Object.values(debt));
-  const elevated = Object.entries(debt).filter(([,v]) => v >= maxDebt - 1 && maxDebt > 0).map(([k]) => k);
-  const dominantDebt = elevated.length ? elevated.join(' + ') + ' Debt' : 'None significant';
-
-  // ── Primary constraint lookup ──
-  let constraint;
-  if (stage <= 2 && growthHealth >= 80) {
-    constraint = "The current engine is healthy and has runway. The primary constraint is building the management infrastructure to sustain growth before complexity outpaces the organization.";
-  } else if (stage === 2 && elevated.includes('Management')) {
-    constraint = "Growth is proven but systems are lagging. Decision-making is becoming a bottleneck. Investing in management layers and process infrastructure now will prevent a painful catch-up later.";
-  } else if (stage === 2 && elevated.includes('Customer')) {
-    constraint = "Your acquisition is working but retention is not compounding. The growth treadmill is accelerating. Fixing retention economics before scaling acquisition is the single highest-leverage investment available.";
-  } else if (stage === 3) {
-    constraint = "The core is healthy but the clock is running. The existing market position is approaching its natural ceiling. The primary constraint is building the next growth engine before the core begins to decline.";
-  } else if (stage === 4 && growthHealth < 55) {
-    constraint = "The legacy engine is weakening while the new model is not yet self-sustaining. This is the most dangerous window in any transformation. Protecting cash flow and reducing active change fronts is more important than accelerating the new model.";
-  } else if (stage === 4) {
-    constraint = "You are attempting to redesign the machine while flying it. The primary constraint is transformation capacity — the organization's finite ability to absorb simultaneous change fronts without losing stakeholder alignment.";
-  } else if (stage === 5) {
-    constraint = "The existing model is no longer viable. The immediate priority is stabilization — protecting cash flow, reducing cost, and creating the runway to build the next model. Transformation without financial stability is reinvention without oxygen.";
+  let diagnosis, a4TieBreak = false;
+  if (a2 === 'A' || a2 === 'B') {
+    const a3 = getVal('a3');
+    if (!a3) return null;
+    diagnosis = (a3 === 'A') ? 1 : 2;
   } else {
-    constraint = "The current engine is healthy and has runway. The primary constraint is building the management infrastructure to sustain growth before complexity outpaces the organization.";
+    const a4 = getVal('a4');
+    if (!a4) return null;
+    if (a4 === 'A') diagnosis = 3;
+    else if (a4 === 'C') diagnosis = 4;
+    else { a4TieBreak = true; } // resolved below via A5
   }
 
-  return { stage, growthHealth, ghBand, load, loadBand, capacitySum, capBand, dominantDebt, constraint };
+  const a5 = getVal('a5');
+  if (!a5) return null;
+  if (a4TieBreak) diagnosis = (a5 === 'A' || a5 === 'B') ? 3 : 4;
+
+  // A5 consistency check
+  let consistencyFlag = null;
+  if ((diagnosis === 1 || diagnosis === 2) && (a5 === 'C' || a5 === 'D')) {
+    consistencyFlag = "Your answers appear internally inconsistent. You describe the existing fit as sufficient to reach your destination, but expect most future value to depend on fit that has not yet been proven. Reconsider your answers before relying on this diagnosis.";
+  } else if (diagnosis === 3 && a5 === 'D') {
+    consistencyFlag = "Your answers appear internally inconsistent. You describe the existing business as remaining central and extended by new fit, but expect the large majority of future value to come from fit not yet proven — which reads closer to a Renew (L4) situation than an Extend (L3) one. Reconsider your answers before relying on this diagnosis.";
+  } else if (diagnosis === 4 && a5 === 'A') {
+    consistencyFlag = "Your answers appear internally inconsistent. You describe the future as depending on a successor engine, but expect more than 75% of future value to come from fit already proven today. Reconsider your answers before relying on this diagnosis.";
+  } else if (diagnosis === 4 && a5 === 'B') {
+    consistencyFlag = "There's a moderate tension in your answers: you describe the future as depending on a successor engine, but expect roughly half or more of future value to come from fit already proven today. Worth reconciling before relying on this diagnosis.";
+  }
+
+  const boundaryNote = a4TieBreak
+    ? `Your answer to "future role of the existing engine" placed this near the boundary between Extend (L3) and Renew (L4). Based on how much future value you expect from already-proven fit, this reads as ${diagnosis === 3 ? 'L3-leaning' : 'L4-leaning'}.`
+    : null;
+
+  // ── Turnaround flag ──
+  const t1 = getVal('t1'), t2 = getVal('t2');
+  if (!t1 || !t2) return null;
+  const turnaroundTriggered = (t1 === 'D' || t2 === 'D' || (t1 === 'C' && t2 === 'C'));
+
+  // ── Section B: Transformation Load ──
+  const checkedAreas = Array.from(document.querySelectorAll('#q-root .check-item input[type="checkbox"][data-area]:checked'));
+  if (checkedAreas.length === 0) return null;
+  let areaScore = 0;
+  const areaSeverities = [];
+  checkedAreas.forEach(cb => {
+    const sev = Number(document.getElementById(cb.id + '_sev').value);
+    areaScore += sev;
+    areaSeverities.push({ area: cb.dataset.area, sev });
+  });
+  const b2 = getVal('b2');
+  const b4 = getVal('b4');
+  if (!b2 || !b4) return null;
+  const sevMap = { A:0, B:1, C:2, D:3 };
+  const concurrencyScore = sevMap[b2];
+  const deferScore = sevMap[b4];
+  const clocks = Array.from(document.querySelectorAll('#q-root input[data-clock]:checked')).map(cb => cb.dataset.clock);
+  const clockScore = Math.min(clocks.length, 4);
+  const loadTotal = areaScore + concurrencyScore*3 + clockScore*2 + deferScore*3;
+  let loadBand;
+  if (loadTotal < 12) loadBand = 'Low';
+  else if (loadTotal < 23) loadBand = 'Moderate';
+  else if (loadTotal < 33) loadBand = 'High';
+  else loadBand = 'Very High';
+
+  const topAreas = [...areaSeverities].sort((a,b) => b.sev - a.sev).slice(0, 4).map(a => a.area);
+  const loadDriverText = `Driven primarily by ${checkedAreas.length} area${checkedAreas.length !== 1 ? 's' : ''} of required change (most consequential: ${topAreas.join(', ')})${clocks.length ? `, ${clocks.length} material clock${clocks.length !== 1 ? 's' : ''} constraining the timeline` : ''}, with ${{A:'high',B:'moderate',C:'low',D:'very low'}[b4]} discretion to sequence or defer.`;
+
+  // ── Section C: Organizational Debt ──
+  const debtCells = Array.from(document.querySelectorAll('#c1-wrap .likert-q'));
+  const debtVals = [];
+  for (const cell of debtCells) {
+    const name = cell.querySelector('input').name;
+    const v = getVal(name);
+    if (!v) return null;
+    debtVals.push({ area: cell.dataset.area, sev: sevMap[v] });
+  }
+  const avgDebt = debtVals.reduce((a,b) => a+b.sev, 0) / debtVals.length;
+  let debtBand;
+  if (avgDebt < 0.75) debtBand = 'Low';
+  else if (avgDebt < 1.5) debtBand = 'Moderate';
+  else if (avgDebt < 2.25) debtBand = 'Significant';
+  else debtBand = 'Severe';
+  const c2 = getVal('c2');
+  if (!c2) return null;
+  const trendMap = { A:'declining', B:'mixed', C:'unchanged', D:'rising' };
+  const topGaps = [...debtVals].sort((a,b) => b.sev - a.sev).slice(0, 4).filter(d => d.sev >= 2).map(d => d.area);
+
+  // ── Section D: Capacity ──
+  const d1 = getVal('d1'), d2 = getVal('d2'), d3 = getVal('d3'), d4 = getVal('d4'), d5 = getVal('d5');
+  if (!d1 || !d2 || !d3 || !d4 || !d5) return null;
+  const capVals = [
+    { name: 'Leadership bandwidth', sev: sevMap[d1] },
+    { name: 'Financial room', sev: sevMap[d2] },
+    { name: 'Ability to prioritize and stop', sev: sevMap[d3] },
+    { name: 'Cross-functional integration', sev: sevMap[d4] },
+    { name: 'Learning capacity', sev: sevMap[d5] },
+  ];
+  const capTotal = capVals.reduce((a,b) => a+b.sev, 0);
+  let capBand;
+  if (capTotal <= 4) capBand = 'Supportive';
+  else if (capTotal <= 9) capBand = 'Constrained';
+  else capBand = 'Fragile';
+  const capConstraints = [...capVals].sort((a,b) => b.sev - a.sev).slice(0, 2).filter(c => c.sev >= 2).map(c => c.name);
+
+  // ── Section E ──
+  const e1 = getVal('e1'), e2 = getVal('e2');
+  if (!e1 || !e2) return null;
+  const mandateMap = { A:'Low', B:'Moderate', C:'High', D:'High' };
+  const evidenceMap = { A:'Strong', B:'Partial', C:'Partial', D:'Weak' };
+  const mandateRisk = mandateMap[e1];
+  const evidenceReadiness = evidenceMap[e2];
+
+  // ── Discussion questions, priority order ──
+  const candidates = [];
+  if (consistencyFlag) candidates.push(`You've described the existing fit and your expected future value in ways that don't fully line up. Which of those two beliefs is actually the one you're building the plan around?`);
+  if (turnaroundTriggered) candidates.push(`If the transformation took eighteen months longer than planned, would the existing business still generate enough value to fund it — or does the stabilization clock run faster than the transformation clock?`);
+  if (diagnosis === 3 || diagnosis === 4) candidates.push(`What specifically has to be true about the new problem-solution fit — customer, economics, or capability — for it to actually replace what the existing engine can no longer provide?`);
+  if (topGaps.length) candidates.push(`In ${topGaps[0]}, is the gap something the current team can close with time and attention, or does it require capability the organization doesn't yet have inside it at all?`);
+  if (capBand === 'Fragile') candidates.push(`If you could only fully resource one of your current transformation fronts for the next two quarters, which one — and what happens to the others while you wait?`);
+  if (mandateRisk === 'High') candidates.push(`Has your board actually approved the time horizon and the temporary pressure on results this transformation requires — or only the destination itself?`);
+  if (evidenceReadiness === 'Weak' || evidenceReadiness === 'Partial') candidates.push(`What result, visible within the next two quarters, would tell you clearly that this transformation is working — as opposed to simply that revenue hasn't yet declined?`);
+
+  const fallbacks = [
+    `Given the destination you described, what would have to be true in three years for this diagnosis to have been the right one in hindsight?`,
+    `Which single capability, if it existed today, would most change how confident you feel in this journey?`,
+    `What decision are you currently avoiding because you don't yet have enough evidence to make it?`,
+  ];
+  while (candidates.length < 3) candidates.push(fallbacks[candidates.length % fallbacks.length]);
+  const discussionQuestions = candidates.slice(0, 3);
+
+  return {
+    destination: dest, diagnosis, consistencyFlag, boundaryNote, turnaroundTriggered,
+    loadBand, loadDriverText, debtBand, debtTrend: trendMap[c2], topGaps, capBand, capConstraints,
+    mandateRisk, evidenceReadiness, discussionQuestions,
+  };
 }
 
 document.getElementById('diag-submit').addEventListener('click', () => {
   const r = computeResult();
   const panel = document.getElementById('diag-result');
   if (!r) {
-    alert('Please answer every question before seeing your diagnosis.');
+    alert('Please answer every visible question before seeing your diagnosis — some questions only appear after you answer the one before them, and Section B requires at least one area selected.');
     return;
   }
-  const profile = STAGE_PROFILES[r.stage];
-  document.getElementById('result-tag').textContent = profile.tag;
-  document.getElementById('result-tag').style.color = profile.color;
-  document.getElementById('result-headline').textContent = profile.headline;
-  document.getElementById('result-body').textContent = profile.body;
-  document.getElementById('result-constraint').innerHTML = `<strong>Primary Constraint:</strong> ${r.constraint}`;
-  const qList = document.getElementById('result-questions');
-  qList.innerHTML = profile.questions.map(q => `<li>${q}</li>`).join('');
+  const info = DIAGNOSIS_INFO[r.diagnosis];
+  document.getElementById('result-tag').textContent = info.name;
+  document.getElementById('result-tag').style.color = info.color;
+  document.getElementById('result-headline').textContent = r.destination ? `Toward: ${r.destination}` : 'Your diagnosis';
+  document.getElementById('result-body').textContent = info.body + (r.boundaryNote ? ' ' + r.boundaryNote : '');
+
+  const cFlag = document.getElementById('consistency-flag');
+  if (r.consistencyFlag) { cFlag.style.display = 'block'; cFlag.textContent = r.consistencyFlag; }
+  else cFlag.style.display = 'none';
+
+  const tFlag = document.getElementById('turnaround-flag');
+  if (r.turnaroundTriggered) {
+    tFlag.style.display = 'block';
+    tFlag.innerHTML = `<strong>Turnaround / Reinvention Flag.</strong> Your answers indicate that part of the immediate managerial problem may be stabilization rather than scale-up alone. The existing business may not remain sufficiently viable to finance or support the transformation without intervention. This is not part of the L1–L4 diagnosis above — it's a separate signal about immediate viability.`;
+  } else tFlag.style.display = 'none';
 
   const dash = document.getElementById('score-dashboard');
   dash.innerHTML = `
-    <div class="score-cell"><span class="score-label">Growth Health</span><div class="score-val ${scoreClass(r.growthHealth,[80,55])}">${r.growthHealth}/100 · ${r.ghBand}</div></div>
-    <div class="score-cell"><span class="score-label">Transformation Load</span><div class="score-val ${(r.loadBand==='Low'||r.loadBand==='Moderate')?'good':'bad'}">${r.loadBand}</div></div>
-    <div class="score-cell"><span class="score-label">Capacity</span><div class="score-val ${r.capBand==='High'?'good':(r.capBand==='Moderate'?'warn':'bad')}">${r.capBand}</div></div>
-    <div class="score-cell"><span class="score-label">Dominant Debt</span><div class="score-val" style="font-size:15px;">${r.dominantDebt}</div></div>
+    <div class="score-cell"><span class="score-label">Transformation Load</span><div class="score-val ${r.loadBand==='Low'||r.loadBand==='Moderate'?'good':'bad'}">${r.loadBand}</div></div>
+    <div class="score-cell"><span class="score-label">Organizational Debt</span><div class="score-val ${r.debtBand==='Low'||r.debtBand==='Moderate'?'good':'bad'}">${r.debtBand} — ${r.debtTrend}</div></div>
+    <div class="score-cell"><span class="score-label">Capacity Conditions</span><div class="score-val ${r.capBand==='Supportive'?'good':(r.capBand==='Constrained'?'warn':'bad')}">${r.capBand}</div></div>
+    <div class="score-cell"><span class="score-label">Mandate / Evidence</span><div class="score-val ${r.mandateRisk==='Low'?'good':'warn'}" style="font-size:15px;">${r.mandateRisk} risk · ${r.evidenceReadiness}</div></div>
   `;
+
+  document.getElementById('result-load-drivers').textContent = r.loadDriverText;
+  document.getElementById('result-debt-gaps').textContent = r.topGaps.length ? r.topGaps.join(', ') : 'No domain currently shows a material or critical gap.';
+  document.getElementById('result-capacity-constraints').textContent = r.capConstraints.length ? r.capConstraints.join(', ') : 'No dimension currently shows a significant constraint.';
+  document.getElementById('result-questions').innerHTML = r.discussionQuestions.map(q => `<li>${q}</li>`).join('');
 
   panel.classList.add('show');
   panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 
 document.getElementById('diag-reset').addEventListener('click', () => {
-  document.querySelectorAll('#q-root input[type="radio"]').forEach(r => r.checked = false);
+  document.querySelectorAll('#q-root input[type="radio"], #q-root input[type="checkbox"]').forEach(el => el.checked = false);
+  document.getElementById('a1_dest').value = '';
+  document.querySelectorAll('#q-root select').forEach(s => { s.disabled = true; s.value = '2'; });
+  document.getElementById('wrap-a3').style.display = 'none';
+  document.getElementById('wrap-a4').style.display = 'none';
+  rebuildDebtQuestions();
   document.getElementById('diag-result').classList.remove('show');
 });

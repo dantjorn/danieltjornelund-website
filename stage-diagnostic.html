@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scale-Up Transformation Diagnostic | Daniel Tjørnelund</title>
-<meta name="description" content="What type of growth challenge does your company face next — and is your organization capable of surviving it? A rapid, evidence-based diagnostic.">
+<meta name="description" content="Identifies the deepest transformation requirement implied by your destination — Replicate, Institutionalize, Extend, or Renew — and assesses transformation load, organizational debt, and current capacity.">
 <link rel="canonical" href="https://www.danieltjornelund.com/stage-diagnostic.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
 <header class="site-header">
@@ -26,7 +26,8 @@
     <div class="wrap">
       <div class="eyebrow">Drawing No. 032 — Self-Assessment</div>
       <h1>Scale-Up Transformation Diagnostic</h1>
-      <p class="lede">The wrong question is "how good is your organization?" The right question: what type of growth challenge does your company face next — and is your organization capable of surviving it? 15 questions, about 5 minutes.</p>
+      <p class="lede">Identifies the deepest transformation requirement implied by your destination — Replicate, Institutionalize, Extend, or Renew — and assesses the transformation load, organizational debt, and current capacity surrounding it.</p>
+      <p style="font-size:14px; color:var(--dark-ink-soft); max-width:60ch; margin-top:10px;">This tool doesn't predict whether a transformation will succeed. It diagnoses the transformation implied by your answers and assesses some of the conditions under which you're attempting to execute it. Results are based on the information you provide — the diagnostic doesn't independently validate your market size, organizational maturity, or strategic assumptions.</p>
     </div>
   </section>
 
@@ -41,17 +42,26 @@
       <div class="diag-result" id="diag-result">
         <span class="stage-tag" id="result-tag"></span>
         <h3 id="result-headline"></h3>
+        <p id="result-body" style="margin-top:10px;"></p>
 
-        <div class="score-dashboard" id="score-dashboard"></div>
+        <div id="turnaround-flag" class="legit-callout" style="display:none; margin-top:16px;"></div>
+        <div id="consistency-flag" class="consistency-flag" style="display:none;"></div>
 
-        <div class="legit-callout" id="result-constraint" style="margin-top:20px;"></div>
+        <div class="score-dashboard" id="score-dashboard" style="margin-top:20px;"></div>
 
-        <p id="result-body" style="margin-top:16px;"></p>
+        <div class="diag-section-label">Main load drivers</div>
+        <p id="result-load-drivers"></p>
 
-        <div class="diag-section-label">Questions to ask yourself</div>
+        <div class="diag-section-label">Largest organizational gaps</div>
+        <p id="result-debt-gaps"></p>
+
+        <div class="diag-section-label">Main capacity constraints</div>
+        <p id="result-capacity-constraints"></p>
+
+        <div class="diag-section-label">Questions worth discussing</div>
         <ul class="spec-list" id="result-questions"></ul>
 
-        <p style="margin-top:18px; font-size:13px; color:var(--graphite); border-top:1px solid var(--paper-line); padding-top:16px;">This diagnostic is based on Scale-Up Transformation Theory, developed over five years leading Azami Global through a Level 4 Transformation.</p>
+        <p style="margin-top:18px; font-size:13px; color:var(--graphite); border-top:1px solid var(--paper-line); padding-top:16px;">Based on your answers. This diagnostic does not independently validate your market size, organizational maturity, financial plan, or strategic assumptions.</p>
 
         <div style="margin-top:16px; display:flex; gap:14px; flex-wrap:wrap;">
           <a href="flagship-transformation.html" class="btn">See how this played out at Azami →</a>
